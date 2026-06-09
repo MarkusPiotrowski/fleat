@@ -59,11 +59,11 @@ Find the folder `YOURPROJECT\build\flutter\android\app\src\main\java` Usually, t
 	```
 	java
 	  ├─com
-	  │  └-fleat
-	  │     └-ble
+	  │  └─fleat
+	  │     └──ble
 	  │        ├─FleatGattCallback.java
-	  │        └-FleatScanCallback.java
-	  └-io 
+	  │        └─FleatScanCallback.java
+	  └─io 
 	```
 	You find the required files in the fleat package's `java` folder. Just copy/paste the `com` folder from there to the build's java folder.
 
