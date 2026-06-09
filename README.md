@@ -30,7 +30,7 @@ The current set-up procedure requires some manual intervention:
 > After this first build process, **DO NOT** download the build APK to your phone. This run was for setting up the build directories by Flet.
 
 5. Now, we need to extend the`pyproject.toml` file or your project. Add the following lines to it (or extend the existing entries accordingly).
-5a. Your APK requires `pyjnius` and (of course) `fleat` (fleat is not available from PyPi, so it's downloaded from this Github repository):
+   a. Your APK requires `pyjnius` and (of course) `fleat` (fleat is not available from PyPi, so it's downloaded from this Github repository):
 ```
 `[tool.flet.android]
 dependencies = [
@@ -38,7 +38,7 @@ dependencies = [
     "git+https://github.com/MarkusPiotrowski/fleat"
 ]
 ```
-5b. Hardware access on Android devices requires permissions (these entries are added to the `AndroidManifest.xml` during building):
+    b. Hardware access on Android devices requires permissions (these entries are added to the `AndroidManifest.xml` during building):
 	```
 	[tool.flet.android.permission]
 	android.permission.BLUETOOTH" = true
@@ -65,7 +65,7 @@ Find the folder `YOURPROJECT\build\flutter\android\app\src\main\java` Usually, t
 	```
 	You find the required files in the fleat package's `java` folder. Just copy/paste the `com` folder from there to the build's java folder.
 
-7. Now we are ready to finally build our APK or run the 
+7. Now we are ready to finally build our APK (or run the app in debug mode on your phone) 
 8. If your application should run cross-platform and you require both Bleak and fleat, you may want to use conditional imports like this:
    ```python
    import sys
