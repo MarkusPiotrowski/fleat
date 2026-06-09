@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "fleat"
+version = "0.1.0"
+description = "A very limited Bleak complement for accessing Bluetooth LE on Android in Python apps made with Flet"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pyjnius",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["fleat*"]
+
+[tool.setuptools.package-data]
+fleat = [
+    "java/**/*.java",
+]
+
+[project.urls]
+Homepage = "https://github.com/MarkusPiotrowski/fleat"
+Issues = "https://github.com/MarkusPiotrowski/fleat/issues"
