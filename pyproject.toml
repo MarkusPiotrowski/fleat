@@ -1,6 +1,6 @@
 [build-system]
 requires = ["setuptools>=61"]
-build-backend = "setuptools.backends.legacy:build"
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "fleat"
@@ -11,6 +11,10 @@ requires-python = ">=3.11"
 dependencies = [
     "pyjnius",
 ]
+license = { text = "MIT" }
+
+[tool.setuptools]
+license-files = ["LICEN[CS]E*"]
 
 [tool.setuptools.packages.find]
 where = ["."]
