@@ -30,15 +30,17 @@ The current set-up procedure requires some manual intervention:
 > After this first build process, **DO NOT** download the build APK to your phone. This run was for setting up the build directories by Flet.
 
 5. Now, we need to extend the`pyproject.toml` file or your project. Add the following lines to it (or extend the existing entries accordingly).
-   a. Your APK requires `pyjnius` and (of course) `fleat` (fleat is not available from PyPi, so it's downloaded from this Github repository):
-```
-`[tool.flet.android]
-dependencies = [
-    "pyjnius",
-    "git+https://github.com/MarkusPiotrowski/fleat"
-]
-```
-    b. Hardware access on Android devices requires permissions (these entries are added to the `AndroidManifest.xml` during building):
+
+    a. Your APK requires `pyjnius` and (of course) `fleat` (fleat is not available from PyPi, so it's downloaded from this Github repository):
+    ```
+    [tool.flet.android]
+    dependencies = [
+        "pyjnius",
+        "git+https://github.com/MarkusPiotrowski/fleat"
+    ]
+    ```
+
+     b. Hardware access on Android devices requires permissions (these entries are added to the `AndroidManifest.xml` during building):
 	```
 	[tool.flet.android.permission]
 	android.permission.BLUETOOTH" = true
