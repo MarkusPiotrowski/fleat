@@ -19,7 +19,6 @@ include = ["fleat*"]
 [tool.setuptools.package-data]
 fleat = [
     "java/**/*.java",
-    "android/**/*.xml",
 ]
 
 [project.urls]

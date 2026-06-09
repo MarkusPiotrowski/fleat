@@ -206,9 +206,7 @@ await client.disconnect()
 
 #### Differences to `BleakClient`
 
-Unlike `BleakClient`, `FleatClient` *will* actively scan for the device if only a
-MAC address string is given (the scan happens inside `connect()`, not in the
-constructor). Additional keyword arguments are not handled.
+Additional keyword arguments are not handled.
 
 ---
 
