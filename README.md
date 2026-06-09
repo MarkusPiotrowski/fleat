@@ -23,13 +23,8 @@ The current set-up procedure requires some manual intervention:
 1. Set up a virtual environment to start a new Flet project as described in the [Flet tutorial](https://flet.dev/docs/getting-started/create-flet-app)
 2. Install fleat from GitHub via pip: `python -m pip install git+https://github.com/MarkusPiotrowski/fleat`
 3. Write and test some code for a desktop computer (Linux, Mac or Window) using **Bleak** to access Bluetooth LE
-4. If your code runs fine on your desktop computer, set up an Android build with `flet build apk`
-
-> NOTE: If you do this for the first time, the build can take a _very long_ time, because a Java JDK and the Android SDK will be downloaded and installed on your computer.
-
-> After this first build process, **DO NOT** download the build APK to your phone. This run was for setting up the build directories by Flet.
-
-5. Now, we need to extend the`pyproject.toml` file or your project. Add the following lines to it (or extend the existing entries accordingly).
+4. If your code runs fine on your desktop computer, set up your project for Android:
+5. First, we need to extend the`pyproject.toml` file or your project. Add the following lines to it (or extend the existing entries accordingly).
 
     a. Your APK requires `pyjnius` and (of course) `fleat` (fleat is not available from PyPi, so it's downloaded from this Github repository):
     ```
@@ -53,21 +48,27 @@ The current set-up procedure requires some manual intervention:
 	[tool.flet.android.feature]
 	"android.hardware.bluetooth_le" = true
 	```
-
-6. Finally, we also have to copy two `.java` files into their proper place so that they are included by Gradle, the Android APK packing tool.
-Find the folder `YOURPROJECT\build\flutter\android\app\src\main\java` Usually, this folder already includes a folder `io`. Add the following folders and files to get a final structure like this (note: we don't touch the `ìo` folder):
+6. Next, you need to copy two `.java` files into their proper place so that they are included by Gradle, the Android APK packing tool:
+In your project folder, set-up the following order structure and add the two `.java` files. You find the required files in the fleat package's `build` folder. Just copy/paste the `build` folder from there into your project folder.
 	```
-	java
-	  ├─com
-	  │  └─fleat
-	  │     └──ble
-	  │        ├─FleatGattCallback.java
-	  │        └─FleatScanCallback.java
-	  └─io 
+	YOUR_PROJECT
+	 ├─build
+	 |  └─flutter
+	 |	    └─android
+     |	       └─app
+	 |           └─src
+	 |              └─main
+     |                 └─java
+	 |                    └─com
+	 │                       └─fleat
+	 │                           └─ble
+	 │                              ├─FleatGattCallback.java
+	 │                              └─FleatScanCallback.java
+	 └─src						  
 	```
-	You find the required files in the fleat package's `java` folder. Just copy/paste the `com` folder from there to the build's java folder.
+7. Now you are ready to build our APK or run the app in debug mode on your phone.
 
-7. Now we are ready to finally build our APK (or run the app in debug mode on your phone) 
+	> NOTE: If you do this for the first time, the build can take a _very long_ time, because a Java JDK and the Android SDK will be downloaded and installed on your computer.
 8. If your application should run cross-platform and you require both Bleak and fleat, you may want to use conditional imports like this:
    ```python
    import sys
