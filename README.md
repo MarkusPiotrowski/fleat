@@ -21,10 +21,35 @@ fleat is a _very limited_ complement for Bleak. It only supports the following m
 The current set-up procedure requires some manual intervention:
 
 1. Set up a virtual environment to start a new Flet project as described in the [Flet tutorial](https://flet.dev/docs/getting-started/create-flet-app)
-2. Install fleat from GitHub via pip: `python -m pip install git+https://github.com/MarkusPiotrowski/fleat`
-3. Write and test some code for a desktop computer (Linux, Mac or Window) using **Bleak** to access Bluetooth LE
-4. If your code runs fine on your desktop computer, set up your project for Android:
-5. First, we need to extend the`pyproject.toml` file or your project. Add the following lines to it (or extend the existing entries accordingly).
+2. Write and test some code for a desktop computer (Linux, Mac or Window) using **Bleak** to access Bluetooth LE
+3. If your code runs fine on your desktop computer with `bleak`, set up your project for Android:
+4. Install fleat from GitHub via pip: `python -m pip install git+https://github.com/MarkusPiotrowski/fleat`
+5. **In your project folder** run `python -m fleat setup-android'.
+This will set up a directory structure in `YOUR_PROJECT/build` and add some required `.java` classes to your project. The final structure will looks like this:
+    ```
+    YOUR_PROJECT
+     ├─build
+	 │  └─flutter
+	 │	    └─android
+     │	       └─app
+	 │           └─src
+	 │              └─main
+     │                 └─java
+	 │                    ├─com
+	 │                    │  └─fleat
+	 │                    │     └─ble
+	 │                    │        ├─FleatGattCallback.java 
+	 │                    │        └─FleatScanCallback.java
+	 │                    ├─io
+	 │                    └─org
+     │                       └─jnius
+     │                          └─NativeInvocationHandler.java
+     └─src                      	 
+	```
+	
+	> NOTE: Each time you delete the `build` folder or use `flet build --clear-cache` you need to re-build this structure with `python -m fleat setup-android` from within your `YOUR_PROJECT` folder!
+
+5. Next, we need to extend the`pyproject.toml` file or your project. Add the following lines to it (or extend the existing entries accordingly).
 
     a. Your APK requires `pyjnius` and (of course) `fleat` (fleat is not available from PyPi, so it's downloaded from this Github repository):
     ```
@@ -38,35 +63,17 @@ The current set-up procedure requires some manual intervention:
      b. Hardware access on Android devices requires permissions (these entries are added to the `AndroidManifest.xml` during building):
 	```
 	[tool.flet.android.permission]
-	android.permission.BLUETOOTH" = true
-	"android.permission.BLUETOOTH_ADMIN"
-	"android.permission.ACCESS_COARSE_LOCATION"
-	"android.permission.ACCESS_FINE_LOCATION"
-	"android.permission.BLUETOOTH_SCAN"
-	"android.permission.BLUETOOTH_CONNECT"
+	"android.permission.BLUETOOTH" = true
+	"android.permission.BLUETOOTH_ADMIN" = true
+	"android.permission.ACCESS_COARSE_LOCATION" = true
+	"android.permission.ACCESS_FINE_LOCATION" = true
+	"android.permission.BLUETOOTH_SCAN" = true
+	"android.permission.BLUETOOTH_CONNECT" = true
 
 	[tool.flet.android.feature]
 	"android.hardware.bluetooth_le" = true
 	```
-6. Next, you need to copy two `.java` files into their proper place so that they are included by Gradle, the Android APK packing tool:
-In your project folder, set-up the following order structure and add the two `.java` files. You find the required files in the fleat package's `build` folder. Just copy/paste the `build` folder from there into your project folder.
-	```
-	YOUR_PROJECT
-	 ├─build
-	 |  └─flutter
-	 |	    └─android
-     |	       └─app
-	 |           └─src
-	 |              └─main
-     |                 └─java
-	 |                    └─com
-	 │                       └─fleat
-	 │                           └─ble
-	 │                              ├─FleatGattCallback.java
-	 │                              └─FleatScanCallback.java
-	 └─src						  
-	```
-7. Now you are ready to build our APK or run the app in debug mode on your phone.
+7. Now you are ready to build our APK or run the app in debug mode on your phone. Follow the instructions from the Flet documentation [here (building an APK)](https://flet.dev/docs/publish/android) or [here (run the app in debug mode on your phone)](https://flet.dev/blog/flet-debug-the-new-cli-for-testing-flet-apps-on-mobile-devices).
 
 	> NOTE: If you do this for the first time, the build can take a _very long_ time, because a Java JDK and the Android SDK will be downloaded and installed on your computer.
 8. If your application should run cross-platform and you require both Bleak and fleat, you may want to use conditional imports like this:
