@@ -30,7 +30,7 @@ def setup_android(project_dir):
         / 'java'
     )
     fleat_dst = java_dst / 'com' / 'fleat' / 'ble'
-    jnius_dst = java_dst / 'bin' / 'jnius'
+    jnius_dst = java_dst / 'org' / 'jnius'
 
     files_ = (
         ('FleatScanCallback.java', fleat_dst),
