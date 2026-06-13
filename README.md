@@ -4,7 +4,7 @@ A _very_ limited Bleak complement for accessing Bluetooth LE on Android in Pytho
 ## Introduction
 **fleat** (a  portmanteau of "Bleak" and "Flet") is a limited complement for [Bleak](https://github.com/hbldh/bleak) to access Bluetooth LE on Android devices from Python apps made with [Flet](https://https://flet.dev/).
 
->If you need Bluetooth LE access for [BeeWare](https://beeware.org/), look into my other repo, [bleakWare](https://github.com/MarkusPiotrowski/bleekWare)
+>If you need Bluetooth LE access for [BeeWare](https://beeware.org/), look into my other repo, [bleekWare](https://github.com/MarkusPiotrowski/bleekWare)
 
 Bleak, the 'Bluetooth Low Energy platform Agnostic Klient', allows using Python to access Bluetooth LE cross-platform, but it's existing platform backend for Android requires [python-for-android (P4A)](https://python-for-android.readthedocs.io/en/latest/index.html), which is not compatible with the use of Flet.
 
