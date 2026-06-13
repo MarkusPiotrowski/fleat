@@ -24,8 +24,8 @@ The current set-up procedure requires some manual intervention:
 2. Write and test some code for a desktop computer (Linux, Mac or Window) using **Bleak** to access Bluetooth LE
 3. If your code runs fine on your desktop computer with `bleak`, set up your project for Android:
 4. Install fleat from GitHub via pip: `python -m pip install git+https://github.com/MarkusPiotrowski/fleat`
-5. **In your project folder** run `python -m fleat setup-android'.
-This will set up a directory structure in `YOUR_PROJECT/build` and add some required `.java` classes to your project. The final structure will looks like this:
+5. **In your project folder** run `python -m fleat setup-android`.
+This will set up a directory structure in `YOUR_PROJECT/build` and add some required `.java` classes to your project. The final structure will look like this:
     ```
     YOUR_PROJECT
      ├─build
