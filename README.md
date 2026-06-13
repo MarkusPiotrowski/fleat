@@ -4,6 +4,8 @@ A _very_ limited Bleak complement for accessing Bluetooth LE on Android in Pytho
 ## Introduction
 **fleat** (a  portmanteau of "Bleak" and "Flet") is a limited complement for [Bleak](https://github.com/hbldh/bleak) to access Bluetooth LE on Android devices from Python apps made with [Flet](https://https://flet.dev/).
 
+>If you need Bluetooth LE access for [BeeWare](https://beeware.org/), look into my other repo, [bleakWare](https://github.com/MarkusPiotrowski/bleekWare)
+
 Bleak, the 'Bluetooth Low Energy platform Agnostic Klient', allows using Python to access Bluetooth LE cross-platform, but it's existing platform backend for Android requires [python-for-android (P4A)](https://python-for-android.readthedocs.io/en/latest/index.html), which is not compatible with the use of Flet.
 
 fleat is 'usage compatible' to Bleak, meaning that it's methods have the same names and return (mostly) the same data as Bleak. Thus, using platform-dependent import switches, the same code can run on Linux, Mac and Windows using Bleak or on Android using fleat. However, fleat is _not_ dependent on Bleak; if your Python app should only run on Android you don't need to install or import Bleak in addition to fleat.
@@ -137,37 +139,43 @@ def main(page: ft.Page):
     async def _search_for_device(e):
         """Use Scanner.find_device... to look for a certain device."""
         nonlocal device
-        search_text.value = 'Status: Searching for device...'
+        if connected:
+            search_tile.title = f'Already connected to {device.name}'
+            page.update()
+            return
+        search_tile.title = 'Searching for device...'
         page.update()
         try:
-            device = await Scanner.find_device_by_name('YOUR_DEVICE')
+            device = await Scanner.find_device_by_name('SDB-BT')
             # Alternatively, you may want to find your device by it's
             # MAC address or UUID (on Mac):
-            # device = await Scanner.find_device_by_address('AA:BB:CC:DD:EE:FF'):
+            # = await Scanner.find_device_by_address('AA:BB:CC:DD:EE:FF')
         except (OSError, BluetoothError) as e:
-            search_text.value = f'Bluetooth Error: {e}'
+            search_tile.title = f'Bluetooth Error: {e}'
 
         if device:
-            search_text.value = f'Status: Found device {device.name}!'
+            search_tile.title = f'Found device {device.name}!'
         else:
-            search_text.value = "Status: Sorry, couldn't find it"
+            search_tile.title = "Sorry, couldn't find it"
         page.update()
 
     async def _connect_and_read_from_device(e):
         """Connect to found BLE device and receive notifications."""
+        nonlocal connected
         if not device:
-            search_text.value = 'Status: Not connected'
+            search_tile.title = 'Not connected'
             return
         async with Client(device, disconnect_callback) as client:
-            search_text.value = f'Status: Connected to {device.name}'
+            search_tile.title = f'Connected to {device.name}'
             connected = True
 
             # Read a simple characteristic:
             try:
-                # You device probably hasn't a battery level characteristic 
+                # You device probably hasn't a battery level characteristic
                 battery_level = await client.read_gatt_char(BATTERY_UUID)
+                battery_tile.title = f'{int.from_bytes(battery_level, "big")}%'
             except BluetoothError:
-                batterie_text.value = 'Battery level: Not available'
+                battery_tile.title = 'Not available'
 
             # Subscribe to a notifying characteristic
             await client.start_notify(NOTIFY_UUID, show_notifications)
@@ -178,20 +186,37 @@ def main(page: ft.Page):
     def disconnect_callback(client):
         """Handle disconnection."""
         nonlocal connected
-        search_text.value = 'Status: Disconnected...'
+        search_tile.title = 'Disconnected...'
         connected = False
         page.update()
 
     def show_notifications(char, data):
         """Display the notifications."""
-        notification_text.value = f'Notification: {data.hex()}'
+        notification_tile.title = f'{data.hex()}'
         page.update()
-    
 
     # Text fields:
-    search_text = ft.Text('Status:', size=30)
-    batterie_text = ft.Text('Battery level:', size=30)
-    notification_text = ft.Text(f'Notification:', size=30)
+    search_tile = ft.ListTile(
+        leading=ft.Icon(ft.Icons.BLUETOOTH),
+        title='',
+        subtitle='Status',
+        margin=20,
+        bgcolor=ft.Colors.SURFACE_CONTAINER_LOW,
+    )
+    battery_tile = ft.ListTile(
+        leading=ft.Icon(ft.Icons.BATTERY_4_BAR),
+        title='',
+        subtitle='Battery Level',
+        margin=20,
+        bgcolor=ft.Colors.SURFACE_CONTAINER_LOW,
+    )
+    notification_tile = ft.ListTile(
+        leading=ft.Icon(ft.Icons.MESSAGE),
+        title='',
+        subtitle='Notifications',
+        margin=20,
+        bgcolor=ft.Colors.SURFACE_CONTAINER_LOW,
+    )
 
     # Buttons
     search_button = ft.FloatingActionButton(
@@ -204,12 +229,26 @@ def main(page: ft.Page):
         content='Read data from device',
         on_click=_connect_and_read_from_device,
     )
-    button_row = ft.Row(
+    button_row = ft.ResponsiveRow(
+        columns=2,
         alignment=ft.MainAxisAlignment.SPACE_EVENLY,
+        margin=20,
         controls=[
-            search_button,
-            connect_button,
-        ]
+            ft.Container(
+                col={
+                    ft.ResponsiveRowBreakpoint.XS: 2,
+                    ft.ResponsiveRowBreakpoint.MD: 1,
+                },
+                content=search_button,
+            ),
+            ft.Container(
+                col={
+                    ft.ResponsiveRowBreakpoint.XS: 2,
+                    ft.ResponsiveRowBreakpoint.MD: 1,
+                },
+                content=connect_button,
+            ),
+        ],
     )
 
     # Page:
@@ -220,12 +259,12 @@ def main(page: ft.Page):
                 alignment=ft.MainAxisAlignment.SPACE_AROUND,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                 controls=[
-                    search_text,
-                    batterie_text,
-                    notification_text,
+                    search_tile,
+                    battery_tile,
+                    notification_tile,
                     button_row,
-                ]
-            )
+                ],
+            ),
         )
     )
 
