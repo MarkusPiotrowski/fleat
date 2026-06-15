@@ -70,11 +70,11 @@ This will set up a directory structure in `YOUR_PROJECT/build` and adds some req
      b. Hardware access on Android devices requires permissions (these entries are added to the `AndroidManifest.xml` during building):
 	```
 	[tool.flet.android.permission]
-	"android.permission.BLUETOOTH" = true
-	"android.permission.BLUETOOTH_ADMIN" = true
-	"android.permission.ACCESS_COARSE_LOCATION" = true
-	"android.permission.ACCESS_FINE_LOCATION" = true
-	"android.permission.BLUETOOTH_SCAN" = true
+	"android.permission.BLUETOOTH" = { maxSdkVersion = "30" }
+	"android.permission.BLUETOOTH_ADMIN"  = { maxSdkVersion = "30" }
+	"android.permission.ACCESS_COARSE_LOCATION" = { maxSdkVersion = "30" }
+	"android.permission.ACCESS_FINE_LOCATION"  = { maxSdkVersion = "30" }
+	"android.permission.BLUETOOTH_SCAN" = { usesPermissionFlags = "neverForLocation" }
 	"android.permission.BLUETOOTH_CONNECT" = true
 
 	[tool.flet.android.feature]
