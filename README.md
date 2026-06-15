@@ -153,7 +153,7 @@ def main(page: ft.Page):
         search_tile.title = 'Searching for device...'
         page.update()
         try:
-            device = await Scanner.find_device_by_name('SDB-BT')
+            device = await Scanner.find_device_by_name('THE_NAME_OF_YOUR_DEVICE')
             # Alternatively, you may want to find your device by it's
             # MAC address or UUID (on Mac):
             # = await Scanner.find_device_by_address('AA:BB:CC:DD:EE:FF')
