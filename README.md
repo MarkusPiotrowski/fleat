@@ -11,6 +11,10 @@ A _very_ limited Bleak complement for accessing Bluetooth LE on Android in Pytho
 **fleat** is 'usage compatible' to **Bleak**, meaning that it's methods have the same names and return (mostly) the same data as **Bleak**. Thus, using platform-dependent import switches, the same code can run on Linux, Mac and Windows using **Bleak** or on Android using **fleat**. However, **fleat** is _not_ dependent on **Bleak**; if your Python app should only run on Android you don't need to install or import **Bleak** in addition to **fleat**.
 
 ## Limitations
+> [!IMPORTANT]
+> For the moment, **fleat** only works if you build your apk file in debug mode with `flet debug android ...`.<br>
+> With `flet build apk` the required `.java` files are stripped from the final APK file by mistake by the code-optimizer tool R8.
+
 **fleat** is a _very limited_ complement for Bleak. It only supports the following methods:
 1. With `FleatScanner` you can scan for available BLE devices (`discover()`) or find a certain device either by its name or address (`find_device_by_name()`, `find_device_by_address()`. The result of these operations is either a list of `BLEDevice` objects or a single `BLEDevice` object.
 2. A `BLEDevice` object has a `name`, `address`, `details` (which is the native BLE object) and a `rssi` value (received signal strength indicator).
@@ -104,6 +108,8 @@ This will set up a directory structure in `YOUR_PROJECT/build` and adds some req
 9. Now you are ready to build an APK or run the app in debug mode on your phone. Follow the instructions from the Flet documentation [here (building an APK)](https://flet.dev/docs/publish/android) or [here (run the app in debug mode on your phone)](https://flet.dev/blog/flet-debug-the-new-cli-for-testing-flet-apps-on-mobile-devices).
 
 	> NOTE: If you do this for the first time, the build can take a _very long_ time, because a Java JDK and the Android SDK will be downloaded and installed on your computer.
+ 
+    > IMPORTANT: At the moment, `flet build apk` does not work with **fleat**, because the required Java classes are stripped from the apk file by the code-optimizer tool R8. 
 
 
 ## Example code
