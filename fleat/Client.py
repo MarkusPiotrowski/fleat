@@ -212,8 +212,10 @@ class FleatClient:
 
         # Connect on a background thread
         # (GATT operations must not block the main thread).
-        thread = threading.Thread(target=self._connect_thread, daemon=True)
-        thread.start()
+        self._gatt_thread = threading.Thread(
+            target=self._connect_thread, daemon=True
+        )
+        self._gatt_thread.start()
 
         # Wait for connection.
         try:
