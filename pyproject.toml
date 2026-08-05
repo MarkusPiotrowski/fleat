@@ -10,6 +10,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "pyjnius",
+	"flet[all]>=0.85.3",
 ]
 license = { text = "MIT" }
 

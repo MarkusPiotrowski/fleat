@@ -8,7 +8,8 @@ A _very_ limited Bleak complement for accessing Bluetooth LE on Android in Pytho
 ## Introduction
 **fleat** (a  portmanteau of "Bleak" and "Flet") is a limited complement for [Bleak](https://github.com/hbldh/bleak) to access Bluetooth LE on Android devices from Python apps made with [Flet](https://https://flet.dev/).
 
->If you need Bluetooth LE access for [BeeWare](https://beeware.org/), look into my other repo, [bleekWare](https://github.com/MarkusPiotrowski/bleekWare).
+> [!TIP]
+> If you need Bluetooth LE access for [BeeWare](https://beeware.org/), look into my other repo, [bleekWare](https://github.com/MarkusPiotrowski/bleekWare).
 
 **Bleak**, the 'Bluetooth Low Energy platform Agnostic Klient', allows using Python to access Bluetooth LE cross-platform, but it's existing platform backend for Android requires [python-for-android (P4A)](https://python-for-android.readthedocs.io/en/latest/index.html), which is not compatible with the use of Flet.
 
@@ -58,11 +59,12 @@ This will set up a directory structure in `YOUR_PROJECT/build` and adds some req
      └─src                      	 
 	```
 	
-	> NOTE: Each time you delete the `build` folder or use `flet build --clear-cache` you need to re-build this structure with `python -m fleat setup-android` from within your `YOUR_PROJECT` folder!
+> [!IMPORTANT]
+> Each time you delete the `build` folder or use `flet build --clear-cache` you need to re-build this structure with `python -m fleat setup-android` from within your `YOUR_PROJECT` folder!
 
 7. Next, you need to extend the `pyproject.toml` file of your project. Add the following lines to it (or extend the existing entries accordingly):
 
-    a. Your project requires `pyjnius` and (of course) `fleat` (**fleat** is not available from PyPi, so it's downloaded from this Github repository):
+    a. Your project requires `pyjnius` and (of course) `fleat` (**fleat** is not available from PyPi, so it's downloaded from this Github repository). In addition, Java classes that are required for **fleat** must stay in the APK:
     ```
     [tool.flet.android]
     dependencies = [
@@ -111,7 +113,8 @@ This will set up a directory structure in `YOUR_PROJECT/build` and adds some req
 
 9. Now you are ready to build an APK or run the app in debug mode on your phone. Follow the instructions from the Flet documentation [here (building an APK)](https://flet.dev/docs/publish/android) or [here (run the app in debug mode on your phone)](https://flet.dev/blog/flet-debug-the-new-cli-for-testing-flet-apps-on-mobile-devices).
 
-	> NOTE: If you do this for the first time, the build can take a _very long_ time, because a Java JDK and the Android SDK will be downloaded and installed on your computer.
+> [!NOTE]
+> If you do this for the first time, the build can take a _very long_ time, because a Java JDK and the Android SDK will be downloaded and installed on your computer.
  
 ## Example code
 Connecting to a BLE device and reading from or writing to it's characteristics is dependent on the device's capabilities; thus providing a general working example app isn't possible. But here is an outline for connecting to a BLE device and reading from a notifying service:
