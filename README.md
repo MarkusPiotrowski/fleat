@@ -6,7 +6,7 @@ A _very_ limited Bleak complement for accessing Bluetooth LE on Android in Pytho
 > To build debug versions via `flet debug android...`, Flet versions >= 0.85.3 are sufficient. 
 
 ## Introduction
-**fleat** (a  portmanteau of "Bleak" and "Flet") is a limited complement for [Bleak](https://github.com/hbldh/bleak) to access Bluetooth LE on Android devices from Python apps made with [Flet](https://https://flet.dev/).
+**fleat** (a  portmanteau of "Bleak" and "Flet") is a limited complement for [Bleak](https://github.com/hbldh/bleak) to access Bluetooth LE on Android devices from Python apps made with [Flet](https://flet.dev/).
 
 > [!TIP]
 > If you need Bluetooth LE access for [BeeWare](https://beeware.org/), look into my other repo, [bleekWare](https://github.com/MarkusPiotrowski/bleekWare).
