@@ -8,7 +8,7 @@ within the Flet framework.
 MIT license
 """
 
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 __author__ = "Markus Piotrowski"
 
 
@@ -59,15 +59,7 @@ def _get_activity():
 
 
 def check_for_permissions(activity=None):
-    """Check for and request neccessary BLE permissions.
-
-    Since we cannot easily pass BLE permission settings to the
-    AndroidManifest.xml with Flet, we do not distinguish if
-    ACCESS_FINE_LOCATION is still required, instead we always ask for it.
-
-    May change in future if we are able to pass more specific BLE settings
-    from pyproject.toml to AndroidManifest.xml.
-    """
+    """Check for and request neccessary BLE permissions."""
     from jnius import autoclass
 
     if activity is None:
